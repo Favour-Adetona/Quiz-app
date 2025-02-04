@@ -4,10 +4,22 @@ import { mockHistory } from "@/lib/data";
 import Link from "next/link";
 import { Trophy } from "lucide-react";
 import Layout from "@/components/layout";
+import { cookies } from 'next/headers'
+import HistoryCard from "@/components/HistoryCard";
 
-export default function Dashboard() {
-  const totalScore = 925;
-  const averageScore = 78;
+export default async function Dashboard() {
+  const cookiesStore = cookies()
+  const token = cookiesStore.get('token')?.value
+  const data = await fetch(`https://quiz-project-dpaw.onrender.com/api/profile/`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    next: { tags: ['Profile'] }
+  }).then((res) => res.json())
+  const totalScore = data?.data?.total_points;
+  const averageScore = data?.data?.average_score;
 
   return (
     <Layout>
@@ -17,7 +29,7 @@ export default function Dashboard() {
           <Card className="p-6">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-12">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 justify-between">
                   <Trophy className="w-5 h-5 text-green-500" />
                   <span>Novice</span>
                 </div>
@@ -31,7 +43,7 @@ export default function Dashboard() {
                 </div>
               </div>
             </div>
-            <Progress value={33} className="h-2" />
+            <Progress value={0.5} className="h-2" />
             <p className="text-sm text-gray-500 mt-2">
               Answer 20+ questions to get to amateur
             </p>
@@ -55,34 +67,7 @@ export default function Dashboard() {
           </Card>
         </div>
 
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-lg font-medium">History</h2>
-            <Link
-              href="/history"
-              className="text-sm text-blue-500 hover:underline"
-            >
-              See more
-            </Link>
-          </div>
-          <Card className="divide-y">
-            {mockHistory.map((item, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-between p-4"
-              >
-                <div>
-                  <div className="font-medium">Ref: {item.ref}</div>
-                  <div className="text-sm text-gray-500">{item.date}</div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="text-sm">{item.duration}</div>
-                  <div className="font-semibold">{item.score}%</div>
-                </div>
-              </div>
-            ))}
-          </Card>
-        </div>
+        <HistoryCard data={data?.data?.quiz_history} />
       </div>
     </Layout>
   );

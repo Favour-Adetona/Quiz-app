@@ -24,15 +24,14 @@ export async function startQuiz(
   return response.json();
 }
 
-export async function submitQuiz(token: string, quizData: any) {
-  console.log(quizData);
+export async function submitQuiz(token: string, scores: number) {
   const response = await fetch(`${API_URL}/quiz/quiz/submit`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ quiz_data: quizData }),
+    body: JSON.stringify({ scores: String(scores) }),
   });
   const data = await response.json();
   console.log(data, "dajjjta");

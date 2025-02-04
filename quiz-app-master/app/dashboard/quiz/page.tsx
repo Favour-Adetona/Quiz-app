@@ -9,8 +9,9 @@ import { Progress } from "@/components/ui/progress";
 import { Timer } from "lucide-react";
 import Layout from "@/components/layout";
 import { ScoreModal } from "@/components/score-modal";
-import { startQuizAction, submitQuizAction } from "../actions";
+import { startQuizAction, submitQuizAction } from "../../actions";
 import { toast } from "sonner";
+import { useSelectCategory } from "@/store/useSelectCategory";
 
 interface Question {
   question: string;
@@ -44,19 +45,16 @@ export default function Quiz() {
   const [timeRemaining, setTimeRemaining] = useState(600);
   const [showScoreModal, setShowScoreModal] = useState(false);
   const [quizResults, setQuizResults] = useState<QuizResults | null>(null);
-  const [category, setCategory] = useState<string>("");
+  const { category } = useSelectCategory()
 
   const questionsPerPage = 5;
 
   useEffect(() => {
-    const categories = ["food", "water", "forest", "minerals"];
-    const randomCategory =
-      categories[Math.floor(Math.random() * categories.length)];
-    setCategory(randomCategory);
+
 
     async function initQuiz() {
       try {
-        const result = await startQuizAction(randomCategory);
+        const result = await startQuizAction(category);
         if (result.success) {
           setQuestions(result.data.questions);
         } else {
@@ -69,7 +67,7 @@ export default function Quiz() {
     }
 
     initQuiz();
-  }, []);
+  }, [category]);
 
   const handleSubmit = useCallback(async () => {
     const currentQuestions = getCurrentQuestions();
@@ -113,15 +111,7 @@ export default function Quiz() {
       setShowScoreModal(true);
 
       try {
-        const result = await submitQuizAction({
-          category: category,
-          difficulty: "easy",
-          answers: answers.map((a) => ({
-            question_index: a.questionIndex,
-            answer: a.answer,
-          })),
-          score,
-        });
+        const result = await submitQuizAction(score);
 
         if (result.success) {
           toast.success("Quiz submitted successfully!");
@@ -274,7 +264,7 @@ export default function Quiz() {
 
         <div className="mt-6">
           <Button
-            className="w-full"
+            className="w-full !bg-quizBlue !text-white"
             onClick={handleSubmit}
             disabled={
               !getCurrentQuestions().every((_, index) =>

@@ -32,9 +32,10 @@ export async function loginAction(formData: FormData) {
 export async function registerAction(formData: FormData) {
   const username = formData.get("username") as string;
   const password = formData.get("password") as string;
+  const fullName = formData.get("FullName") as string;
 
   try {
-    const data = await register(username, password);
+    const data = await register(username, password, fullName);
     cookies().set("token", data.token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -81,14 +82,14 @@ export async function startQuizAction(category: string) {
   }
 }
 
-export async function submitQuizAction(quizData: any) {
+export async function submitQuizAction(scores: number) {
   const token = cookies().get("token")?.value;
   if (!token) {
     return { success: false, error: "Not authenticated" };
   }
 
   try {
-    const data = await submitQuiz(token, quizData);
+    const data = await submitQuiz(token,scores);
     console.log(data, "data");
     return { success: true, data };
   } catch (error) {
