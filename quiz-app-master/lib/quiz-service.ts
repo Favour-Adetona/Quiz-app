@@ -31,7 +31,7 @@ export async function submitQuiz(token: string, scores: number) {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ scores: String(scores) }),
+    body: JSON.stringify({ scores: `${scores}` }),
   });
   const data = await response.json();
   console.log(data, "dajjjta");
