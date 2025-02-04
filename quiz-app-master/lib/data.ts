@@ -16,6 +16,9 @@ export const mockQuestions: Question[] = [
   // Add more questions as needed
 ]
 
+export const levels = [ "Novice", "Amateur", "Master", "Expert", "Guru" ]
+export const categories = [ "food", "water", "forest", "minerals" ]
+
 export const mockHistory: QuizHistory[] = [
   {
     ref: "12503590",

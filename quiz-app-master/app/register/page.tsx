@@ -37,16 +37,22 @@ export default function Register() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      <Card className="w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-white px-4">
+      <Card className="w-full max-w-[22.5625rem] !shadow-none !border-none">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl">Create an account</CardTitle>
-          <p className="text-gray-500 mt-2">
-            Sign up to start your learning journey
+          <CardTitle className="text-3xl !font-inria">Register</CardTitle>
+          <p className="text-gray-500 mt-2.5 font-inria ">
+            Learn, compete, and test your knowledge. Sign up now.
           </p>
         </CardHeader>
         <CardContent>
           <form action={onSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <label className="text-sm font-medium" htmlFor="FullName">
+                Full Name
+              </label>
+              <Input id="FullName" name="FullName" required />
+            </div>
             <div className="space-y-2">
               <label className="text-sm font-medium" htmlFor="username">
                 Username
@@ -79,8 +85,8 @@ export default function Register() {
                 </Button>
               </div>
             </div>
-            <Button className="w-full" type="submit" disabled={isLoading}>
-              {isLoading ? "Signing up..." : "Sign up"}
+            <Button className="w-full !bg-quizBlue" type="submit" disabled={isLoading}>
+              {isLoading ? "Signing up..." : "Create an account"}
             </Button>
           </form>
           <div className="mt-4 text-center text-sm">

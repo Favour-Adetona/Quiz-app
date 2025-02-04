@@ -92,7 +92,7 @@ export function ScoreModal({
             onClick={() => onOpenChange(false)}
             className="w-full bg-blue-600 hover:bg-blue-700"
           >
-            <Link href="/">Return Home</Link>
+            <Link href="/dashboard">Return Home</Link>
           </Button>
         </div>
       </DialogContent>

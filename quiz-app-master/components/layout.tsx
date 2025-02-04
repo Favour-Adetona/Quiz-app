@@ -23,17 +23,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   };
 
   const navItems = [
-    { href: "/profile", icon: User, label: "Profile" },
-    { href: "/history", icon: History, label: "Performance History" },
-    { href: "/leaderboard", icon: Trophy, label: "Leaderboard" },
+    { href: "/dashboard/profile", icon: User, label: "Profile" },
+    { href: "/dashboard/history", icon: History, label: "Performance History" },
+    { href: "/dashboard/leaderboard", icon: Trophy, label: "Leaderboard" },
   ];
 
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="border-b bg-white">
         <div className="container flex items-center justify-between h-16 px-4">
-          <Link href="/" className="flex items-center">
-            <Button variant="ghost" className="text-blue-500 font-semibold">
+          <Link href="/dashboard" className="flex items-center">
+            <Button variant="ghost" className="text-white bg-quizBlue font-semibold h-8">
               Test It
             </Button>
           </Link>
